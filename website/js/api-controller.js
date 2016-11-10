@@ -20,12 +20,7 @@
 
     $scope.items = [];
     $scope.isMenuVisible = false;
-    var defaultItem = {
-      title: 'Protractor API Docs',
-      description: 'Welcome to the Protractor API docs page. These pages ' +
-      'contain the Protractor reference materials.'
-    };
-    $scope.currentItem = defaultItem;
+    $scope.currentItem = null;
 
     // Watch for location changes to show the correct item.
     $scope.$on('$locationChangeSuccess', function() {
@@ -62,25 +57,8 @@
       $anchorScroll();
     };
 
-    /**
-     * Use the $sce service to trust the html rendered in the view.
-     * @param html
-     */
     $scope.trust = function(html) {
-      if (!html) {
-        return;
-      }
-
-      // Does it come with a type? Types come escaped as [description](theType).
-      var match;
-      while (match = html.match(/(\[(.*?)\]\((.*?)\))/)) {
-        var link = '<a href="' +
-            (match[3].match(/^https?:\/\//) ? '' : '#/api?view=') + match[3] +
-            '">' + match[2] + '</a>';
-        html = html.replace(match[1], link);
-      }
-
-      return $sce.trustAsHtml(html);
+      return trustHTML($sce, html);
     };
   };
 
@@ -153,8 +131,25 @@
 
       // Add short description.
       if (item.description) {
-        item.shortDescription =
-            item.description.substring(0., item.description.indexOf('.') + 1);
+        // Find the correct portion of the description
+
+        // The following parsing is OK most of the time
+        var sentenceEnd = item.description.search(/\.\s|\.$/) + 1 || Infinity;
+        var paragraphEnd = item.description.indexOf('</p>') + 4;
+        if (paragraphEnd == 3) {
+          paragraphEnd = Infinity;
+        }
+        var shortDescription = item.description.substring(0, Math.min(
+            item.description.length, sentenceEnd, paragraphEnd)).trim();
+
+        // Remove <p> tags
+        if (shortDescription.substr(0,3) == '<p>') {
+          shortDescription = shortDescription.substr(3);
+          if (shortDescription.substr(-4) == '</p>') {
+            shortDescription = shortDescription.substr(0, shortDescription.length - 4);
+          }
+        }
+        item.shortDescription = shortDescription;
       }
     });
 
@@ -201,7 +196,6 @@
 
     var addItemToList = function(item, depth) {
       if (item.inList) {
-        console.log(item.name);
         return;
       }
       item.treeClasses = 'depth-' + depth;
@@ -217,14 +211,13 @@
         });
       }
       if (item.extends) {
-        console.log(item.base.name);
         var parent = self.itemsByName[item.base.name];
         if (parent != null) {
           addItemToList(parent, depth + 1);
         }
       }
     };
-    
+
     var prevFileName;
     list.forEach(function(item) {
       if ((item.type !== 'child') && !item.extension) {
@@ -245,13 +238,15 @@
     return newList;
   };
 
+  // TODO: This is a hack for getting the 'Inherited from Webdriver...' stuff.
+  // Instead, move our extra docs to colocate with our fns, remove the selenium-webdriver
+  // folder, and remove this.
   ApiCtrl.prototype.addExtends = function(list) {
     var self = this;
     list.forEach(function(item) {
       if (!item.extends) {
         return;
       }
-
       // Remove braces from {type}.
       var parentName = item.extends.replace(/[{}]/g, '');
       var nameExpr = new RegExp(parentName + '\\.prototype');
@@ -263,7 +258,6 @@
           return item.name && item.name.match(nameExpr);
         })
       };
-
       if (self.itemsByName[parentName]) {
         self.itemsByName[parentName].extension = true;
       }

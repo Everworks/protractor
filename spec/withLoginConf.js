@@ -5,7 +5,7 @@ var env = require('./environment.js');
 exports.config = {
   seleniumAddress: env.seleniumAddress,
 
-  framework: 'jasmine2',
+  framework: 'jasmine',
 
   specs: [
     'login/login_spec.js'
@@ -13,10 +13,10 @@ exports.config = {
 
   capabilities: env.capabilities,
 
-  baseUrl: env.baseUrl,
+  baseUrl: env.baseUrl + '/ng1/',
 
   onPrepare: function() {
-    browser.driver.get(env.baseUrl + '/login.html');
+    browser.driver.get(env.baseUrl + '/ng1/login.html');
 
     browser.driver.findElement(by.id('username')).sendKeys('Jane');
     browser.driver.findElement(by.id('password')).sendKeys('1234');

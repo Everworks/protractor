@@ -11,7 +11,7 @@ describe('expected conditions', function() {
 
     var alertButton = $('#alertbutton');
     alertButton.click();
-    expect(alertIsPresent.call()).toBe(true);
+    browser.wait(protractor.ExpectedConditions.alertIsPresent(), 1000);
 
     browser.switchTo().alert().accept();
   });
@@ -64,6 +64,18 @@ describe('expected conditions', function() {
   it('should have titleIs', function() {
     expect(EC.titleIs('My Angular').call()).toBe(false);
     expect(EC.titleIs('My AngularJS App').call()).toBe(true);
+  });
+
+  it('should have urlContains', function() {
+      var baseUrlFromSpec = browser.baseUrl;
+      expect(EC.urlContains('/form').call()).toBe(true);
+      expect(EC.urlContains(baseUrlFromSpec+ 'index.html#/form').call()).toBe(true);
+  });
+
+  it('should have urlIs', function() {
+      var baseUrlFromSpec = browser.baseUrl;
+      expect(EC.urlIs(browser.baseUrl).call()).toBe(false);
+      expect(EC.urlIs(baseUrlFromSpec+'index.html#/form').call()).toBe(true);
   });
 
   it('should have elementToBeClickable', function() {

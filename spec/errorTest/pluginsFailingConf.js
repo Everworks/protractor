@@ -5,7 +5,7 @@ exports.config = {
   // seleniumAddress: env.seleniumAddress,
   mockSelenium: true,
 
-  framework: 'jasmine2',
+  framework: 'jasmine',
 
   // Spec patterns are relative to this directory.
   specs: [
@@ -14,12 +14,7 @@ exports.config = {
 
   capabilities: env.capabilities,
 
-  baseUrl: env.baseUrl,
-
-  jasmineNodeOpts: {
-    isVerbose: true,
-    realtimeFailure: true
-  },
+  baseUrl: env.baseUrl + '/ng1/',
 
   // Plugin patterns are relative to this directory.
   plugins: [{

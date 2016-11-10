@@ -3,7 +3,7 @@ var env = require('../environment.js');
 exports.config = {
   seleniumAddress: env.seleniumAddress,
 
-  framework: 'jasmine2',
+  framework: 'jasmine',
 
   specs: [
     'baseCase/single_failure_spec1.js'
@@ -13,11 +13,9 @@ exports.config = {
     'browserName': 'chrome'
   }],
 
-  baseUrl: env.baseUrl,
+  baseUrl: env.baseUrl + '/ng1/',
 
   jasmineNodeOpts: {
-    isVerbose: true,
-    showTiming: true,
     defaultTimeoutInterval: 90000
   },
 

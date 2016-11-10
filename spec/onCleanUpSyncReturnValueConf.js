@@ -4,7 +4,7 @@ var env = require('./environment.js');
 exports.config = {
   mockSelenium: true,
 
-  framework: 'jasmine2',
+  framework: 'jasmine',
 
   specs: [
     'onCleanUp/*_spec.js'
@@ -12,7 +12,7 @@ exports.config = {
 
   capabilities: env.capabilities,
 
-  baseUrl: env.baseUrl,
+  baseUrl: env.baseUrl + '/ng1/',
 
   onCleanUp: function(exitCode) {
     return exitCode;

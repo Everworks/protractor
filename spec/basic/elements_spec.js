@@ -1,5 +1,3 @@
-var util = require('util');
-
 describe('ElementFinder', function() {
   beforeEach(function() {
     // Clear everything between each test.
@@ -113,6 +111,13 @@ describe('ElementFinder', function() {
       });
   });
 
+  it('isPresent() should be friendly with out of bounds error', function () {
+    browser.get('index.html#/form');
+    var elementsNotPresent = element.all(by.id('notPresentElementID'));
+    expect(elementsNotPresent.first().isPresent()).toBe(false);
+    expect(elementsNotPresent.last().isPresent()).toBe(false);
+  });
+
   it('isPresent() should not raise error on chained finders', function() {
     browser.get('index.html#/form');
     var elmFinder = $('.nopenopenope').element(by.binding('greet'));
@@ -187,6 +192,16 @@ describe('ElementFinder', function() {
       name.getText().then(null, function() {})
     ).toEqual('Anon');
 
+  });
+
+  it('should check equality correctly', function() {
+    browser.get('index.html#/form');
+
+    var usernameInput = element(by.model('username'));
+    var name = element(by.binding('username'));
+
+    expect(usernameInput.equals(usernameInput)).toEqual(true);
+    expect(usernameInput.equals(name)).toEqual(false);
   });
 });
 
@@ -346,7 +361,7 @@ describe('ElementArrayFinder', function() {
     expect(element.all(by.binding('doesnotexist')).count()).toEqual(0);
   });
 
-  it('should return not present when an element disappears within an array', 
+  it('should return not present when an element disappears within an array',
       function() {
     browser.get('index.html#/form');
     element.all(by.model('color')).then(function(elements) {
@@ -365,6 +380,15 @@ describe('ElementArrayFinder', function() {
     expect(colorList.get(0).getAttribute('value')).toEqual('blue');
     expect(colorList.get(1).getAttribute('value')).toEqual('green');
     expect(colorList.get(2).getAttribute('value')).toEqual('red');
+  });
+
+  it('should get an element from an array by promise index', function() {
+    var colorList = element.all(by.model('color'));
+    var index = protractor.promise.fulfilled(1);
+
+    browser.get('index.html#/form');
+
+    expect(colorList.get(index).getAttribute('value')).toEqual('green');
   });
 
   it('should get an element from an array using negative indices', function() {
@@ -397,6 +421,21 @@ describe('ElementArrayFinder', function() {
 
     colorList.each(function(colorElement) {
       expect(colorElement.getText()).not.toEqual('purple');
+    });
+  });
+
+  it('should allow accessing subelements from within each', function() {
+    browser.get('index.html#/form');
+    var rows = element.all(by.css('.rowlike'));
+
+    rows.each(function(row) {
+      var input = row.element(by.css('.input'));
+      expect(input.getAttribute('value')).toEqual('10');
+    });
+
+    rows.each(function(row) {
+      var input = row.element(by.css('input'));
+      expect(input.getAttribute('value')).toEqual('10');
     });
   });
 

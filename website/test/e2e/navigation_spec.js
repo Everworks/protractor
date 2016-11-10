@@ -35,7 +35,7 @@ describe('Navigation', function() {
         'Tutorial'
       ]);
     });
-    
+
     it('should have items under Protractor Setup', function() {
       expect(menu.dropdown('Protractor Setup').itemNames()).toEqual([
           'Setting Up Protractor',
@@ -59,15 +59,16 @@ describe('Navigation', function() {
 
     it('should have items under Reference', function() {
       expect(menu.dropdown('Reference').itemNames()).toEqual([
-        'Configuration File Reference',
+        'Configuration File',
         'Protractor API',
+        'Style Guide',
         'Protractor Syntax vs WebDriverJS Syntax',
         'Browser Support',
         'Plugins',
         'Timeouts',
         'The WebDriver Control Flow',
         'How It Works',
-        'Upgrading to Jasmine 2.0',
+        'Upgrading to Jasmine 2.x',
         'Mobile Setup',
         'FAQ'
       ]);
@@ -80,7 +81,7 @@ describe('Navigation', function() {
 
       expect($('h1').getText()).toBe('Setting Up Protractor');
     });
-    
+
     it('should go to Setting Up the Selenium Server', function() {
       menu.dropdown('Protractor Setup').item('Setting Up the Selenium Server');
 
@@ -151,6 +152,12 @@ describe('Navigation', function() {
       expect($('#title').getText()).toMatch('Protractor API');
     });
 
+    it('should go to Style Guide', function() {
+      menu.dropdown('Reference').item('Style Guide');
+
+      expect($('h1').getText()).toBe('Protractor style guide');
+    });
+
     it('should go to Timeouts', function() {
       menu.dropdown('Reference').item('Timeouts');
 
@@ -181,8 +188,8 @@ describe('Navigation', function() {
       expect($('h1').getText()).toBe('How It Works');
     });
 
-    it('should go to Upgrading to Jasmine 2.0', function() {
-      menu.dropdown('Reference').item('Upgrading to Jasmine 2.0');
+    it('should go to Upgrading to Jasmine 2.x', function() {
+      menu.dropdown('Reference').item('Upgrading to Jasmine 2.x');
 
       expect($('h1').getText()).toBe('Upgrading from Jasmine 1.3 to 2.x');
     });

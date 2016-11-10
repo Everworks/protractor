@@ -7,13 +7,12 @@ module.exports = function(framework) {
     framework: framework,
 
     specs: [
-      framework != 'cucumber' ? 'specs/simple_spec.js' :
-          'features/simple.feature'
+      'specs/simple_spec.js'
     ],
 
     capabilities: env.capabilities,
 
-    baseUrl: env.baseUrl,
+    baseUrl: env.baseUrl + '/ng1/',
 
     plugins: [{
       path: 'plugins/post_test_plugin.js'

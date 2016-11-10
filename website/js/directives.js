@@ -43,7 +43,7 @@
           if (shouldPaint) {
             element.html(prettyHtml);
           }
-        }
+        };
       }
     };
   });
@@ -55,6 +55,11 @@
     return {
       scope: {
         list: '=ptorFunctionList'
+      },
+      controller: function($scope, $sce) {
+        $scope.trust = function(html) {
+          return trustHTML($sce, html);
+        };
       },
       templateUrl: 'partials/ptor-function-list.html'
     };

@@ -6,7 +6,7 @@ var webdriver = require('selenium-webdriver');
 exports.config = {
   seleniumAddress: env.seleniumAddress,
 
-  framework: 'jasmine2',
+  framework: 'jasmine',
 
   specs: [
     'control/spec.js'
@@ -14,7 +14,7 @@ exports.config = {
 
   capabilities: env.capabilities,
 
-  baseUrl: env.baseUrl,
+  baseUrl: env.baseUrl + '/ng1/',
 
   onPrepare: function() {
 

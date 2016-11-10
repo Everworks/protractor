@@ -44,6 +44,12 @@ describe('protractor library', function() {
         expect(browser.driver.getCurrentUrl()).toMatch('#/form');
       });
 
+  it('should unwrap WebElements', function() {
+    browser.get('index.html');
+    var ptorEl = element(by.binding('greet'));
+    browser.executeScript('', ptorEl); // Will crash if element isn't unwrapped
+  });
+
   it('should have access to the processed config block', function() {
     function containsMatching(arr, string) {
       var contains = false;
@@ -106,6 +112,12 @@ describe('protractor library', function() {
     expect(element(by.menuItemWithName('.menu li', 'repeater')).isPresent());
     expect(element(by.menuItemWithName('.menu li', 'repeater')).getText()).
         toEqual('repeater');
+  });
+
+  it('should allow self-wrapped webdriver instances', function() {
+    var driver = protractor.wrapDriver(browser.driver);
+    var url = require('url').resolve(browser.baseUrl, 'index.html');
+    driver.get(url);
   });
 
   describe('helper functions', function() {

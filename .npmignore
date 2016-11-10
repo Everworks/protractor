@@ -1,17 +1,22 @@
 debugging/
+docs/
+lib/
+scripts/
 spec/
 stress/
 selenium/
-debugging/
-testapp/inbrowsertest/
+testapp/
+typings/
 website/
 
+.gitattributes
+.github/
+.gitignore
+.jshintrc
 .npmignore
 .travis.yml
-changes.sh
 chromedriver.log
 libpeerconnection.log
 npm-debug.log
-new.txt
 xmloutput*
 release.md

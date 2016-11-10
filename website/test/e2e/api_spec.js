@@ -73,7 +73,7 @@ describe('Api', function() {
     expect(apiPage.title.getText()).toBe('element(locator) View code');
     expect(browser.getCurrentUrl()).toMatch(/api\?view=ElementFinder/);
   });
-  
+
   it('should show child functions', function() {
     // Given that you go to element.all().
     apiPage.clickOnMenuItem('element.all(locator)');
@@ -95,7 +95,7 @@ describe('Api', function() {
     // Then ensure the child functions are shown.
     expect(apiPage.getChildFunctionNames()).toEqual([
       'clone', 'all', 'filter', 'get', 'first', 'last', 'count', 'locator',
-      'each', 'map', 'reduce', 'evaluate', 'allowAnimations']);
+      'then', 'each', 'map', 'reduce', 'evaluate', 'allowAnimations']);
   });
 
   it('should show element functions', function() {
@@ -105,7 +105,7 @@ describe('Api', function() {
     // Then ensure the child functions are shown.
     expect(apiPage.getChildFunctionNames()).toEqual([
       'then', 'clone', 'locator', 'getWebElement', 'all', 'element', '$$',
-      '$', 'isPresent', 'isElementPresent', 'evaluate', 'allowAnimations']);
+      '$', 'isPresent', 'isElementPresent', 'evaluate', 'allowAnimations', 'equals']);
   });
 
   it('should show browser functions', function() {
@@ -114,10 +114,12 @@ describe('Api', function() {
 
     // Then ensure the child functions are shown.
     expect(apiPage.getChildFunctionNames()).toEqual([
-      'waitForAngular', 'findElement', 'findElements', 'isElementPresent',
-      'addMockModule', 'clearMockModules', 'removeMockModule',
-      'getRegisteredMockModules', 'get', 'refresh', 'navigate', 'setLocation',
-      'getLocationAbsUrl', 'debugger', 'enterRepl', 'pause']);
+      'getProcessedConfig', 'forkNewDriverInstance', 'restart',
+      'useAllAngular2AppRoots', 'waitForAngular', 'findElement', 'findElements',
+      'isElementPresent', 'addMockModule', 'clearMockModules',
+      'removeMockModule', 'getRegisteredMockModules', 'get', 'refresh',
+      'navigate', 'setLocation', 'getLocationAbsUrl', 'debugger', 'enterRepl',
+      'pause', 'wrapDriver']);
   });
 
   it('should view inherited function', function() {
@@ -125,13 +127,13 @@ describe('Api', function() {
     apiPage.clickOnMenuItem('browser');
 
     // When you click on the 'executeAsyncScript' item of the extends table.
-    apiPage.clickOnExtendsType('executeAsyncScript');
+    apiPage.clickOnExtendsType('sleep');
 
     // Then ensure the type is shown.
     expect(apiPage.title.getText()).
-        toBe('webdriver.WebDriver.executeAsyncScript View code');
+        toBe('webdriver.WebDriver.sleep');
     expect(browser.getCurrentUrl()).
-        toMatch(/api\?view=webdriver.WebDriver.prototype.executeAsyncScript/);
+        toMatch(/api\?view=webdriver.WebDriver.prototype.sleep/);
   });
 
   it('should sort the menu to put webdriver docs next to the relevant ' +

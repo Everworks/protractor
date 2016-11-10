@@ -62,6 +62,7 @@ myPackage.processor(require('./processors/filter-jsdoc'));
 myPackage.processor(require('./processors/set-file-name'));
 myPackage.processor(require('./processors/transfer-see'));
 myPackage.processor(require('./processors/add-links'));
+myPackage.processor(require('./processors/filter-promise'));
 myPackage.processor(require('./processors/add-toc'));
 
 myPackage.config(function(readFilesProcessor, templateFinder, writeFilesProcessor) {
@@ -70,12 +71,12 @@ myPackage.config(function(readFilesProcessor, templateFinder, writeFilesProcesso
   readFilesProcessor.basePath = path.resolve(__dirname, '../..');
 
   readFilesProcessor.sourceFiles = [
-    {include: 'lib/**/element.js'},
-    {include: 'lib/**/protractor.js'},
-    {include: 'lib/**/locators.js'},
-    {include: 'lib/**/expectedConditions.js'},
-    {include: 'node_modules/selenium-webdriver/lib/**/locators.js'},
-    {include: 'node_modules/selenium-webdriver/lib/webdriver/webdriver.js'}
+    {include: 'built/browser.js'},
+    {include: 'built/element.js'},
+    {include: 'built/locators.js'},
+    {include: 'built/expectedConditions.js'},
+    {include: 'lib/selenium-webdriver/locators.js'},
+    {include: 'lib/selenium-webdriver/webdriver.js'}
   ];
 
   // Add a folder to search for our own templates to use when rendering docs

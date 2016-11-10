@@ -16,5 +16,7 @@
   "loopfunc": true,
   "sub": true,
   "undef": true,
-  "quotmark": "single"
+  "quotmark": "single",
+  "evil": true,
+  "curly": true
 }
